@@ -1,0 +1,114 @@
+@page "/contact"
+
+<PageTitle>Contact Us - FOCUS Logistics</PageTitle>
+
+<!-- Hero Section -->
+<section class="hero" style="min-height: 360px; background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB8csXZJLrAfZiggbakMwLUD0_DIJheux8D1AsmkEClhIcluxNIEJ7rPaPzEsY_mKYPjhbKaFpccVWV19hzU1_ewFXym2CFxWmhKK-aVesB8ozJT2fG1UPWkaoqn7txnCKEimjrbJ_B5Rv9vp4kXvpTzcMLshrWf-_ukjOTA1gtr-q_vH5Cl4bKniVcIuUXPXRsluaBdGT8mIXoiTNbqgmlRV90vjPxaDDhC7x0EaTgNOISdvKOq0D9ISvo1_ZjMU1eaXyE-jOSuME');">
+    <div class="hero-overlay" style="background: linear-gradient(rgba(10, 35, 66, 0.7) 0%, rgba(10, 35, 66, 0.9) 100%);"></div>
+    <div class="hero-content">
+        <h1 class="hero-title">Contact Us</h1>
+        <p class="hero-subtitle">We're here to help. Reach out to us for any inquiries or to get a quote for our logistics services.</p>
+    </div>
+</section>
+
+<!-- Contact Form Section -->
+<section class="section">
+    <div class="section-container">
+        <div class="grid grid-cols-1" style="grid-template-columns: 1fr; gap: 3rem;">
+            
+            <div class="grid grid-cols-1 contact-grid" style="grid-template-columns: 2fr 3fr;">
+                <!-- Left Column: Contact Info -->
+                <div>
+                    <h2 style="font-size: 1.875rem; font-weight: var(--font-weight-bold); color: var(--color-primary-dark); margin-bottom: 1rem;">Get in Touch</h2>
+                    <p style="font-size: 1.125rem; color: var(--color-text-gray-light); margin-bottom: 2rem;">Our team is ready to answer your questions and provide the solutions you need. Fill out the form, and we'll get back to you shortly.</p>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <ContactInfoCard 
+                            Icon="call"
+                            Title="Phone"
+                            Description="Speak directly with our support team."
+                            ContactInfo='<a href="tel:+1-800-555-0199" style="color: var(--color-secondary);">+1 (800) 555-0199</a>' />
+                        
+                        <ContactInfoCard 
+                            Icon="mail"
+                            Title="Email"
+                            Description="For general inquiries and support."
+                            ContactInfo='<a href="mailto:support@focuslogistics.com" style="color: var(--color-secondary);">support@focuslogistics.com</a>' />
+                        
+                        <ContactInfoCard 
+                            Icon="location_on"
+                            Title="Office"
+                            Description="Visit our headquarters."
+                            ContactInfo="123 Logistics Lane, Suite 100<br/>Metropolis, 12345, USA" />
+                    </div>
+                </div>
+
+                <!-- Right Column: Contact Form -->
+                <div class="card" style="padding: 2rem;">
+                    <EditForm Model="@contactForm" OnValidSubmit="@HandleSubmit">
+                        <div class="grid grid-cols-1 grid-cols-2-sm" style="gap: 1.5rem;">
+                            <div class="form-group">
+                                <label class="form-label">First Name</label>
+                                <InputText class="form-input" @bind-Value="contactForm.FirstName" placeholder="John" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Last Name</label>
+                                <InputText class="form-input" @bind-Value="contactForm.LastName" placeholder="Doe" />
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Email Address</label>
+                            <InputText type="email" class="form-input" @bind-Value="contactForm.Email" placeholder="you@company.com" />
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Phone Number</label>
+                            <InputText type="tel" class="form-input" @bind-Value="contactForm.Phone" placeholder="+1 (555) 000-0000" />
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Your Message</label>
+                            <InputTextArea class="form-textarea" @bind-Value="contactForm.Message" placeholder="Tell us how we can help..." rows="4" />
+                        </div>
+                        
+                        <button type="submit" class="btn btn-secondary btn-large w-full" style="border-radius: var(--radius-full);">Send Message</button>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Google Maps Section -->
+<section style="width: 100%; height: 400px; background-color: #e5e7eb;">
+    <iframe 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.219598858807!2d-73.98785368459365!3d40.75797497932693!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25855c64801b7%3A0x7e4a132912444c3!2sTimes%20Square!5e0!3m2!1sen!2sus!4v1617296021482!5m2!1sen!2sus"
+        width="100%" 
+        height="100%" 
+        style="border:0;" 
+        allowfullscreen="" 
+        loading="lazy">
+    </iframe>
+</section>
+
+@code {
+    private ContactFormModel contactForm = new();
+
+    private void HandleSubmit()
+    {
+        // Handle form submission
+        Console.WriteLine($"Contact form submitted: {contactForm.FirstName} {contactForm.LastName}");
+        // Reset form
+        contactForm = new();
+    }
+
+    private class ContactFormModel
+    {
+        public string FirstName { get; set; } = "";
+        public string LastName { get; set; } = "";
+        public string Email { get; set; } = "";
+        public string Phone { get; set; } = "";
+        public string Message { get; set; } = "";
+    }
+}

@@ -1,0 +1,29 @@
+<div style="display: flex; gap: 1rem; align-items: flex-start;">
+    <div class="card-icon">
+        <span class="material-symbols-outlined" style="font-size: 2rem;">@Icon</span>
+    </div>
+    <div>
+        <h3 class="card-title">@Title</h3>
+        <p class="card-description">@Description</p>
+        @if (!string.IsNullOrEmpty(ContactInfo))
+        {
+            <div style="margin-top: 0.5rem; color: var(--color-secondary); font-weight: var(--font-weight-medium);">
+                @((MarkupString)ContactInfo)
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string Icon { get; set; } = "";
+
+    [Parameter]
+    public string Title { get; set; } = "";
+
+    [Parameter]
+    public string Description { get; set; } = "";
+
+    [Parameter]
+    public string ContactInfo { get; set; } = "";
+}

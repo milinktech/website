@@ -1,0 +1,12 @@
+<div style="text-align: center;">
+    <h3 class="stat-value">@Value</h3>
+    <p class="stat-label">@Label</p>
+</div>
+
+@code {
+    [Parameter]
+    public string Value { get; set; } = "";
+
+    [Parameter]
+    public string Label { get; set; } = "";
+}

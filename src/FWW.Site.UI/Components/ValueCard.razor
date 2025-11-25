@@ -1,0 +1,18 @@
+<div class="card" style="text-align: center;">
+    <div class="card-icon" style="margin: 0 auto 1rem;">
+        <span class="material-symbols-outlined" style="font-size: 2rem;">@Icon</span>
+    </div>
+    <h3 class="card-title">@Title</h3>
+    <p class="card-description">@Description</p>
+</div>
+
+@code {
+    [Parameter]
+    public string Icon { get; set; } = "";
+
+    [Parameter]
+    public string Title { get; set; } = "";
+
+    [Parameter]
+    public string Description { get; set; } = "";
+}

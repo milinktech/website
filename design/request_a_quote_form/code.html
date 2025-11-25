@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Request a Quote - FOCUS Logistics</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#0d59f2",
+            "background-light": "#f5f6f8",
+            "background-dark": "#101622",
+          },
+          fontFamily: {
+            "display": ["Inter", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .form-input {
+      background-image: none !important; /* Override default select arrow */
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<header class="w-full bg-white dark:bg-gray-900/80 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between whitespace-nowrap border-b border-solid border-gray-200 dark:border-gray-700 h-16">
+<div class="flex items-center gap-4 text-gray-900 dark:text-white">
+<div class="size-6 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M36.7273 44C33.9891 44 31.6043 39.8386 30.3636 33.69C29.123 39.8386 26.7382 44 24 44C21.2618 44 18.877 39.8386 17.6364 33.69C16.3957 39.8386 14.0109 44 11.2727 44C7.25611 44 4 35.0457 4 24C4 12.9543 7.25611 4 11.2727 4C14.0109 4 16.3957 8.16144 17.6364 14.31C18.877 8.16144 21.2618 4 24 4C26.7382 4 29.123 8.16144 30.3636 14.31C31.6043 8.16144 33.9891 4 36.7273 4C40.7439 4 44 12.9543 44 24C44 35.0457 40.7439 44 36.7273 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-xl font-bold tracking-tight">FOCUS</h2>
+</div>
+<div class="hidden md:flex flex-1 justify-center gap-8">
+<a class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors" href="#">Home</a>
+<a class="text-sm font-medium text-primary dark:text-primary" href="#">Services</a>
+<a class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors" href="#">About Us</a>
+<a class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors" href="#">Contact</a>
+</div>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-wide hover:bg-primary/90 transition-colors">
+<span class="truncate">Login</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex flex-1 justify-center py-10 sm:py-16 px-4 sm:px-6 lg:px-8">
+<div class="layout-content-container flex flex-col w-full max-w-4xl gap-8">
+<div class="flex flex-wrap justify-between gap-4">
+<div class="flex flex-col gap-3">
+<p class="text-gray-900 dark:text-white text-4xl sm:text-5xl font-black leading-tight tracking-tighter">Request a Free Quote</p>
+<p class="text-gray-500 dark:text-gray-400 text-lg font-normal leading-normal max-w-2xl">Fill in the details below and our team will get back to you with a competitive quote as soon as possible.</p>
+</div>
+</div>
+<div class="flex flex-col gap-3">
+<div class="flex gap-6 justify-between items-center text-sm font-medium text-gray-600 dark:text-gray-400">
+<p class="text-gray-900 dark:text-white"><span class="font-bold">Step 1 of 3:</span> Service Details</p>
+<p>Cargo Info</p>
+<p>Contact Info</p>
+</div>
+<div class="rounded-full bg-gray-200 dark:bg-gray-700 h-2">
+<div class="h-2 rounded-full bg-primary" style="width: 15%;"></div>
+</div>
+</div>
+<form class="space-y-12">
+<div class="p-6 sm:p-8 bg-white dark:bg-gray-900/50 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800">
+<h2 class="text-gray-900 dark:text-white text-2xl font-bold leading-tight tracking-tight mb-6">Service Details</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<label class="flex flex-col gap-2">
+<p class="text-sm font-medium text-gray-700 dark:text-gray-300">Service Type</p>
+<select class="form-select w-full rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border-gray-300 dark:border-gray-600 bg-background-light dark:bg-background-dark h-12 p-3 text-base font-normal leading-normal">
+<option value="">Select service type</option>
+<option value="air">Air Freight</option>
+<option value="ocean">Ocean Freight</option>
+<option value="land">Land Transport</option>
+<option value="customs">Customs Brokerage</option>
+</select>
+</label>
+<label class="flex flex-col gap-2">
+<p class="text-sm font-medium text-gray-700 dark:text-gray-300">Preferred Shipping Date</p>
+<input class="form-input w-full rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border-gray-300 dark:border-gray-600 bg-background-light dark:bg-background-dark h-12 p-3 text-base font-normal leading-normal" type="date"/>
+</label>
+<label class="flex flex-col gap-2">
+<p class="text-sm font-medium text-gray-700 dark:text-gray-300">Origin</p>
+<input class="form-input w-full rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border-gray-300 dark:border-gray-600 bg-background-light dark:bg-background-dark h-12 p-3 text-base font-normal leading-normal placeholder:text-gray-400 dark:placeholder:text-gray-500" placeholder="City, Country" type="text"/>
+</label>
+<label class="flex flex-col gap-2">
+<p class="text-sm font-medium text-gray-700 dark:text-gray-300">Destination</p>
+<input class="form-input w-full rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border-gray-300 dark:border-gray-600 bg-background-light dark:bg-background-dark h-12 p-3 text-base font-normal leading-normal placeholder:text-gray-400 dark:placeholder:text-gray-500" placeholder="City, Country" type="text"/>
+</label>
+</div>
+</div>
+<div class="p-6 sm:p-8 bg-white dark:bg-gray-900/50 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800">
+<h2 class="text-gray-900 dark:text-white text-2xl font-bold leading-tight tracking-tight mb-6">Cargo Information</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="md:col-span-2">
+<label class="flex flex-col gap-2">
+<p class="text-sm font-medium text-gray-700 dark:text-gray-300">Description of Goods</p>
+<input class="form-input w-full rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border-gray-300 dark:border-gray-600 bg-background-light dark:bg-background-dark h-12 p-3 text-base font-normal leading-normal placeholder:text-gray-400 dark:placeholder:text-gray-500" placeholder="e.g., Electronics, Apparel, Machinery Parts" type="text"/>
+</label>
+</div>
+<label class="flex flex-col gap-2">
+<p class="text-sm font-medium text-gray-700 dark:text-gray-300">Total Weight (kg)</p>
+<input class="form-input w-full rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border-gray-300 dark:border-gray-600 bg-background-light dark:bg-background-dark h-12 p-3 text-base font-normal leading-normal placeholder:text-gray-400 dark:placeholder:text-gray-500" placeholder="0.00" type="number"/>
+</label>
+<div class="grid grid-cols-3 gap-4">
+<label class="flex flex-col gap-2">
+<p class="text-sm font-medium text-gray-700 dark:text-gray-300">L (cm)</p>
+<input class="form-input w-full rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border-gray-300 dark:border-gray-600 bg-background-light dark:bg-background-dark h-12 p-3 text-base font-normal leading-normal placeholder:text-gray-400 dark:placeholder:text-gray-500" placeholder="0" type="number"/>
+</label>
+<label class="flex flex-col gap-2">
+<p class="text-sm font-medium text-gray-700 dark:text-gray-300">W (cm)</p>
+<input class="form-input w-full rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border-gray-300 dark:border-gray-600 bg-background-light dark:bg-background-dark h-12 p-3 text-base font-normal leading-normal placeholder:text-gray-400 dark:placeholder:text-gray-500" placeholder="0" type="number"/>
+</label>
+<label class="flex flex-col gap-2">
+<p class="text-sm font-medium text-gray-700 dark:text-gray-300">H (cm)</p>
+<input class="form-input w-full rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border-gray-300 dark:border-gray-600 bg-background-light dark:bg-background-dark h-12 p-3 text-base font-normal leading-normal placeholder:text-gray-400 dark:placeholder:text-gray-500" placeholder="0" type="number"/>
+</label>
+</div>
+<div class="md:col-span-2">
+<p class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Is the cargo hazardous?</p>
+<div class="flex items-center gap-6">
+<label class="flex items-center gap-2 cursor-pointer">
+<input class="form-radio text-primary focus:ring-primary/50" name="hazardous" type="radio" value="yes"/>
+<span class="text-base text-gray-800 dark:text-gray-200">Yes</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer">
+<input checked="" class="form-radio text-primary focus:ring-primary/50" name="hazardous" type="radio" value="no"/>
+<span class="text-base text-gray-800 dark:text-gray-200">No</span>
+</label>
+</div>
+</div>
+</div>
+</div>
+<div class="p-6 sm:p-8 bg-white dark:bg-gray-900/50 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800">
+<h2 class="text-gray-900 dark:text-white text-2xl font-bold leading-tight tracking-tight mb-6">Your Contact Information</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<label class="flex flex-col gap-2">
+<p class="text-sm font-medium text-gray-700 dark:text-gray-300">Full Name</p>
+<input class="form-input w-full rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border-gray-300 dark:border-gray-600 bg-background-light dark:bg-background-dark h-12 p-3 text-base font-normal leading-normal placeholder:text-gray-400 dark:placeholder:text-gray-500" placeholder="John Doe" type="text"/>
+</label>
+<label class="flex flex-col gap-2">
+<p class="text-sm font-medium text-gray-700 dark:text-gray-300">Email Address</p>
+<input class="form-input w-full rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border-gray-300 dark:border-gray-600 bg-background-light dark:bg-background-dark h-12 p-3 text-base font-normal leading-normal placeholder:text-gray-400 dark:placeholder:text-gray-500" placeholder="you@company.com" type="email"/>
+</label>
+<label class="flex flex-col gap-2">
+<p class="text-sm font-medium text-gray-700 dark:text-gray-300">Phone Number</p>
+<input class="form-input w-full rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border-gray-300 dark:border-gray-600 bg-background-light dark:bg-background-dark h-12 p-3 text-base font-normal leading-normal placeholder:text-gray-400 dark:placeholder:text-gray-500" placeholder="+1 (555) 000-0000" type="tel"/>
+</label>
+<label class="flex flex-col gap-2">
+<p class="text-sm font-medium text-gray-700 dark:text-gray-300">Company Name (Optional)</p>
+<input class="form-input w-full rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border-gray-300 dark:border-gray-600 bg-background-light dark:bg-background-dark h-12 p-3 text-base font-normal leading-normal placeholder:text-gray-400 dark:placeholder:text-gray-500" placeholder="Your Company Inc." type="text"/>
+</label>
+<div class="md:col-span-2">
+<label class="flex flex-col gap-2">
+<p class="text-sm font-medium text-gray-700 dark:text-gray-300">Additional Information</p>
+<textarea class="form-textarea w-full rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border-gray-300 dark:border-gray-600 bg-background-light dark:bg-background-dark p-3 text-base font-normal leading-normal placeholder:text-gray-400 dark:placeholder:text-gray-500" placeholder="Any special instructions or details about your shipment..." rows="4"></textarea>
+</label>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-center gap-4">
+<button class="flex w-full md:w-auto min-w-[200px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-14 px-8 bg-primary text-white text-lg font-bold tracking-wide hover:bg-primary/90 transition-colors shadow-lg shadow-primary/30" type="submit">
+<span>Get My Free Quote</span>
+</button>
+<p class="text-xs text-gray-500 dark:text-gray-400 text-center">By submitting, you agree to our <a class="underline hover:text-primary" href="#">Terms of Service</a> and <a class="underline hover:text-primary" href="#">Privacy Policy</a>.</p>
+</div>
+</form>
+</div>
+</main>
+<footer class="w-full bg-white dark:bg-gray-900/80 border-t border-gray-200 dark:border-gray-800 mt-16">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+<p>© 2024 FOCUS Logistics. All Rights Reserved.</p>
+</div>
+<div class="flex items-center gap-6 text-gray-600 dark:text-gray-400">
+<a class="hover:text-primary dark:hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-primary dark:hover:text-primary transition-colors" href="#">Terms of Use</a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+</div>
+</body></html>

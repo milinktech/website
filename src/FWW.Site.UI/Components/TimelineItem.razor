@@ -1,0 +1,16 @@
+<div class="timeline-item">
+    <p class="timeline-year">@Year</p>
+    <h3 class="timeline-title">@Title</h3>
+    <p class="timeline-description">@Description</p>
+</div>
+
+@code {
+    [Parameter]
+    public string Year { get; set; } = "";
+
+    [Parameter]
+    public string Title { get; set; } = "";
+
+    [Parameter]
+    public string Description { get; set; } = "";
+}
