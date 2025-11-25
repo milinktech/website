@@ -1,0 +1,45 @@
+@inject IJSRuntime JS
+
+<button class="theme-toggle" @onclick="ToggleTheme" title="@(isDark ? "Switch to light mode" : "Switch to dark mode")">
+    <span class="material-symbols-outlined">
+        @(isDark ? "light_mode" : "dark_mode")
+    </span>
+</button>
+
+@code {
+    private bool isDark = false;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // Get stored theme from localStorage
+            var theme = await JS.InvokeAsync<string>("localStorage.getItem", "theme");
+            
+            // If no theme is stored, default to light
+            if (string.IsNullOrEmpty(theme))
+            {
+                theme = "light";
+            }
+            
+            isDark = theme == "dark";
+            
+            // Apply the theme immediately
+            await JS.InvokeVoidAsync("eval", $"document.documentElement.setAttribute('data-theme', '{theme}')");
+            
+            StateHasChanged();
+        }
+    }
+
+    private async Task ToggleTheme()
+    {
+        isDark = !isDark;
+        var newTheme = isDark ? "dark" : "light";
+        
+        // Update the document attribute
+        await JS.InvokeVoidAsync("eval", $"document.documentElement.setAttribute('data-theme', '{newTheme}')");
+        
+        // Store in localStorage
+        await JS.InvokeVoidAsync("localStorage.setItem", "theme", newTheme);
+    }
+}

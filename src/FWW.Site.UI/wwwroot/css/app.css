@@ -6,30 +6,14 @@
    CSS Custom Properties (Design Tokens)
    ============================================ */
 :root {
-    /* Colors - Primary Theme */
+    /* Brand Colors (theme-independent) */
     --color-primary: #0d59f2;
     --color-primary-hover: #0a47c2;
     --color-primary-dark: #0A2342;
     --color-secondary: #FF6700;
     --color-secondary-hover: #e05a00;
-    
-    /* Background Colors */
-    --color-bg-light: #f5f6f8;
-    --color-bg-dark: #101622;
-    --color-card-light: #ffffff;
-    --color-card-dark: #0d1117;
-    
-    /* Text Colors */
-    --color-text-light: #333333;
-    --color-text-dark: #e5e7eb;
-    --color-text-gray-light: #6b7280;
-    --color-text-gray-dark: #9ca3af;
-    
-    /* Border Colors */
-    --color-border-light: #e5e7eb;
-    --color-border-dark: #374151;
-    
-    /* Typography */
+
+    /* Typography (theme-independent) */
     --font-family-display: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     --font-weight-normal: 400;
     --font-weight-medium: 500;
@@ -37,8 +21,8 @@
     --font-weight-bold: 700;
     --font-weight-extrabold: 800;
     --font-weight-black: 900;
-    
-    /* Spacing */
+
+    /* Spacing (theme-independent) */
     --spacing-xs: 0.25rem;
     --spacing-sm: 0.5rem;
     --spacing-md: 1rem;
@@ -46,25 +30,45 @@
     --spacing-xl: 2rem;
     --spacing-2xl: 3rem;
     --spacing-3xl: 4rem;
-    
-    /* Border Radius */
+
+    /* Border Radius (theme-independent) */
     --radius-sm: 0.25rem;
     --radius-md: 0.5rem;
     --radius-lg: 0.75rem;
     --radius-xl: 1rem;
     --radius-full: 9999px;
-    
-    /* Shadows */
+
+    /* Shadows (theme-independent) */
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
     --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
     --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
-    
+
     /* Breakpoints (for reference) */
     --breakpoint-sm: 640px;
     --breakpoint-md: 768px;
     --breakpoint-lg: 1024px;
     --breakpoint-xl: 1280px;
+
+    /* Light Mode (Default) - Based on design screenshots */
+    --color-bg-primary: #ffffff;
+    --color-bg-secondary: #f5f6f8;
+    --color-card-bg: #ffffff;
+    --color-text-primary: #333333;
+    --color-text-secondary: #6b7280;
+    --color-border: #e5e7eb;
+    --color-header-bg: rgba(255, 255, 255, 0.8);
+}
+
+/* Dark Mode Theme */
+[data-theme="dark"] {
+    --color-bg-primary: #101622;
+    --color-bg-secondary: #0d1117;
+    --color-card-bg: #0d1117;
+    --color-text-primary: #e5e7eb;
+    --color-text-secondary: #9ca3af;
+    --color-border: #374151;
+    --color-header-bg: rgba(13, 17, 23, 0.8);
 }
 
 /* ============================================
@@ -84,24 +88,23 @@ body {
     font-family: var(--font-family-display);
     font-size: 16px;
     line-height: 1.5;
-    color: var(--color-text-light);
-    background-color: var(--color-bg-light);
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-primary);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-    body {
-        color: var(--color-text-dark);
-        background-color: var(--color-bg-dark);
-    }
-}
+
 
 /* ============================================
    Typography
    ============================================ */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-weight: var(--font-weight-bold);
     line-height: 1.2;
     margin-bottom: 0.5em;
@@ -237,7 +240,7 @@ a:hover {
     .grid-cols-2-md {
         grid-template-columns: repeat(2, 1fr);
     }
-    
+
     .grid-cols-3-md {
         grid-template-columns: repeat(3, 1fr);
     }
@@ -259,15 +262,12 @@ a:hover {
     background-color: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--color-border-light);
+    border-bottom: 1px solid var(--color-border);
+
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
-@media (prefers-color-scheme: dark) {
-    .header {
-        background-color: rgba(13, 17, 23, 0.8);
-        border-bottom-color: var(--color-border-dark);
-    }
-}
+
 
 .nav-container {
     display: flex;
@@ -288,10 +288,14 @@ a:hover {
     font-weight: var(--font-weight-bold);
 }
 
-@media (prefers-color-scheme: dark) {
-    .nav-brand {
-        color: white;
-    }
+
+
+
+
+[data-theme="dark"] .nav-brand {
+
+    color: white;
+
 }
 
 .nav-logo {
@@ -315,15 +319,11 @@ a:hover {
 .nav-link {
     font-size: 0.875rem;
     font-weight: var(--font-weight-medium);
-    color: var(--color-text-light);
+    color: var(--color-text-primary);
     transition: color 0.2s ease;
 }
 
-@media (prefers-color-scheme: dark) {
-    .nav-link {
-        color: var(--color-text-dark);
-    }
-}
+
 
 .nav-link:hover {
     color: var(--color-secondary);
@@ -341,7 +341,7 @@ a:hover {
     background: none;
     border: none;
     cursor: pointer;
-    color: var(--color-text-light);
+    color: var(--color-text-primary);
     transition: background-color 0.2s ease;
 }
 
@@ -352,14 +352,14 @@ a:hover {
 }
 
 .mobile-menu-button:hover {
-    background-color: var(--color-border-light);
+    background-color: var(--color-border);
 }
 
 @media (prefers-color-scheme: dark) {
     .mobile-menu-button {
         color: var(--color-text-dark);
     }
-    
+
     .mobile-menu-button:hover {
         background-color: var(--color-border-dark);
     }
@@ -404,12 +404,12 @@ a:hover {
 }
 
 .btn-light {
-    background-color: var(--color-card-light);
-    color: var(--color-text-light);
+    background-color: var(--color-card-bg);
+    color: var(--color-text-primary);
 }
 
 .btn-light:hover {
-    background-color: var(--color-border-light);
+    background-color: var(--color-border);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -417,7 +417,7 @@ a:hover {
         background-color: var(--color-card-dark);
         color: white;
     }
-    
+
     .btn-light:hover {
         background-color: var(--color-border-dark);
     }
@@ -508,8 +508,8 @@ a:hover {
     display: flex;
     flex-direction: column;
     padding: 1.5rem;
-    background-color: var(--color-card-light);
-    border: 1px solid var(--color-border-light);
+    background-color: var(--color-card-bg);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -553,7 +553,7 @@ a:hover {
 
 .card-description {
     font-size: 0.875rem;
-    color: var(--color-text-gray-light);
+    color: var(--color-text-secondary);
     line-height: 1.6;
 }
 
@@ -587,7 +587,7 @@ a:hover {
     font-weight: var(--font-weight-bold);
     text-align: center;
     margin-bottom: 3rem;
-    color: var(--color-text-light);
+    color: var(--color-text-primary);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -631,7 +631,7 @@ a:hover {
 .stat-label {
     margin-top: 0.5rem;
     font-size: 1rem;
-    color: var(--color-text-gray-light);
+    color: var(--color-text-secondary);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -653,7 +653,7 @@ a:hover {
 .form-label {
     font-size: 0.875rem;
     font-weight: var(--font-weight-medium);
-    color: var(--color-text-light);
+    color: var(--color-text-primary);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -669,14 +669,15 @@ a:hover {
     padding: 0.75rem;
     font-size: 1rem;
     font-family: var(--font-family-display);
-    color: var(--color-text-light);
-    background-color: var(--color-bg-light);
-    border: 1px solid var(--color-border-light);
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-primary);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 @media (prefers-color-scheme: dark) {
+
     .form-input,
     .form-select,
     .form-textarea {
@@ -781,8 +782,8 @@ a:hover {
     position: relative;
     padding: 1.5rem;
     margin-bottom: 2rem;
-    background-color: var(--color-card-light);
-    border: 1px solid var(--color-border-light);
+    background-color: var(--color-card-bg);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-md);
 }
@@ -808,7 +809,7 @@ a:hover {
 
 .timeline-description {
     font-size: 0.875rem;
-    color: var(--color-text-gray-light);
+    color: var(--color-text-secondary);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -832,7 +833,202 @@ a:hover {
 .loading-spinner {
     width: 3rem;
     height: 3rem;
-    border: 4px solid var(--color-border-light);
+    border: 4px solid var(--color-border);
+    border-top-color: var(--color-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ============================================
+   Error UI
+   ============================================ */
+#blazor-error-ui {
+    background: #ffcccc;
+    color: #cc0000;
+    padding: 1rem;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    display: none;
+}
+
+#blazor-error-ui .dismiss {
+    cursor: pointer;
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* ============================================
+   Utility Classes
+   ============================================ */
+.text-center {
+    text-align: center;
+}
+
+.text-primary {
+    color: var(--color-primary);
+}
+
+.text-secondary {
+    color: var(--color-secondary);
+}
+
+.mt-1 {
+    margin-top: 0.25rem;
+}
+
+.mt-2 {
+    margin-top: 0.5rem;
+}
+
+.mt-4 {
+    margin-top: 1rem;
+}
+
+.mt-8 {
+    margin-top: 2rem;
+}
+
+.mb-2 {
+    margin-bottom: 0.5rem;
+}
+
+.mb-4 {
+    margin-bottom: 1rem;
+}
+
+.mb-8 {
+    margin-bottom: 2rem;
+}
+
+.w-full {
+    width: 100%;
+}
+
+.hidden {
+    display: none;
+}
+
+/* ============================================
+   Responsive Utilities
+   ============================================ */
+@media (min-width: 768px) {
+    .footer-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.footer-section-title {
+    font-size: 1rem;
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-link {
+    display: block;
+    padding: 0.5rem 0;
+    font-size: 0.875rem;
+    color: #9ca3af;
+    transition: color 0.2s ease;
+}
+
+.footer-link:hover {
+    color: white;
+}
+
+.footer-bottom {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #374151;
+    text-align: center;
+}
+
+.footer-copyright {
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+/* ============================================
+   Timeline (About Page)
+   ============================================ */
+.timeline {
+    position: relative;
+    padding: 2rem 0;
+}
+
+.timeline-item {
+    position: relative;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    background-color: var(--color-card-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
+}
+
+@media (prefers-color-scheme: dark) {
+    .timeline-item {
+        background-color: var(--color-card-dark);
+        border-color: var(--color-border-dark);
+    }
+}
+
+.timeline-year {
+    font-weight: var(--font-weight-bold);
+    color: var(--color-secondary);
+    margin-bottom: 0.25rem;
+}
+
+.timeline-title {
+    font-size: 1.125rem;
+    font-weight: var(--font-weight-bold);
+    margin-bottom: 0.5rem;
+}
+
+.timeline-description {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+}
+
+@media (prefers-color-scheme: dark) {
+    .timeline-description {
+        color: var(--color-text-gray-dark);
+    }
+}
+
+/* ============================================
+   Loading Spinner
+   ============================================ */
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    gap: 1rem;
+}
+
+.loading-spinner {
+    width: 3rem;
+    height: 3rem;
+    border: 4px solid var(--color-border);
     border-top-color: var(--color-primary);
     border-radius: 50%;
     animation: spin 1s linear infinite;
@@ -925,8 +1121,35 @@ a:hover {
     .md\:flex {
         display: flex;
     }
-    
+
     .md\:hidden {
         display: none;
     }
+}
+
+/* ============================================
+   Theme Toggle Button
+   ============================================ */
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0.5rem;
+    border: none;
+    border-radius: var(--radius-full);
+    background-color: transparent;
+    color: var(--color-text-primary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+    background-color: var(--color-border);
+    transform: rotate(15deg);
+}
+
+.theme-toggle .material-symbols-outlined {
+    font-size: 20px;
 }
