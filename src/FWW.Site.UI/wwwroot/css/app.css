@@ -259,7 +259,7 @@ a:hover {
     position: sticky;
     top: 0;
     z-index: 50;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: var(--color-header-bg);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border-bottom: 1px solid var(--color-border);
@@ -412,15 +412,20 @@ a:hover {
     background-color: var(--color-border);
 }
 
-@media (prefers-color-scheme: dark) {
-    .btn-light {
-        background-color: var(--color-card-dark);
-        color: white;
-    }
+[data-theme="dark"] .btn-light {
 
-    .btn-light:hover {
-        background-color: var(--color-border-dark);
-    }
+    background-color: var(--color-card-bg);
+
+    color: white;
+
+}
+
+
+
+[data-theme="dark"] .btn-light:hover {
+
+    background-color: var(--color-border);
+
 }
 
 .btn-rounded {
@@ -514,12 +519,7 @@ a:hover {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-@media (prefers-color-scheme: dark) {
-    .card {
-        background-color: var(--color-card-dark);
-        border-color: var(--color-border-dark);
-    }
-}
+
 
 .card:hover {
     transform: translateY(-4px);
@@ -545,10 +545,10 @@ a:hover {
     margin-bottom: 0.5rem;
 }
 
-@media (prefers-color-scheme: dark) {
-    .card-title {
-        color: white;
-    }
+[data-theme="dark"] .card-title {
+
+    color: white;
+
 }
 
 .card-description {
@@ -557,11 +557,7 @@ a:hover {
     line-height: 1.6;
 }
 
-@media (prefers-color-scheme: dark) {
-    .card-description {
-        color: var(--color-text-gray-dark);
-    }
-}
+
 
 /* ============================================
    Section Styles
@@ -590,10 +586,10 @@ a:hover {
     color: var(--color-text-primary);
 }
 
-@media (prefers-color-scheme: dark) {
-    .section-title {
-        color: white;
-    }
+[data-theme="dark"] .section-title {
+
+    color: white;
+
 }
 
 .section-bg-gray {
@@ -634,11 +630,7 @@ a:hover {
     color: var(--color-text-secondary);
 }
 
-@media (prefers-color-scheme: dark) {
-    .stat-label {
-        color: var(--color-text-gray-dark);
-    }
-}
+
 
 /* ============================================
    Forms
@@ -656,11 +648,7 @@ a:hover {
     color: var(--color-text-primary);
 }
 
-@media (prefers-color-scheme: dark) {
-    .form-label {
-        color: var(--color-text-dark);
-    }
-}
+
 
 .form-input,
 .form-select,
@@ -676,16 +664,7 @@ a:hover {
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-@media (prefers-color-scheme: dark) {
 
-    .form-input,
-    .form-select,
-    .form-textarea {
-        color: white;
-        background-color: var(--color-bg-dark);
-        border-color: var(--color-border-dark);
-    }
-}
 
 .form-input:focus,
 .form-select:focus,
@@ -710,10 +689,10 @@ a:hover {
     padding: 4rem 1rem;
 }
 
-@media (prefers-color-scheme: dark) {
-    .footer {
-        background-color: #000000;
-    }
+[data-theme="dark"] .footer {
+
+    background-color: #000000;
+
 }
 
 .footer-container {
@@ -788,12 +767,7 @@ a:hover {
     box-shadow: var(--shadow-md);
 }
 
-@media (prefers-color-scheme: dark) {
-    .timeline-item {
-        background-color: var(--color-card-dark);
-        border-color: var(--color-border-dark);
-    }
-}
+
 
 .timeline-year {
     font-weight: var(--font-weight-bold);
@@ -812,11 +786,7 @@ a:hover {
     color: var(--color-text-secondary);
 }
 
-@media (prefers-color-scheme: dark) {
-    .timeline-description {
-        color: var(--color-text-gray-dark);
-    }
-}
+
 
 /* ============================================
    Loading Spinner
@@ -983,12 +953,7 @@ a:hover {
     box-shadow: var(--shadow-md);
 }
 
-@media (prefers-color-scheme: dark) {
-    .timeline-item {
-        background-color: var(--color-card-dark);
-        border-color: var(--color-border-dark);
-    }
-}
+
 
 .timeline-year {
     font-weight: var(--font-weight-bold);
@@ -1007,11 +972,7 @@ a:hover {
     color: var(--color-text-secondary);
 }
 
-@media (prefers-color-scheme: dark) {
-    .timeline-description {
-        color: var(--color-text-gray-dark);
-    }
-}
+
 
 /* ============================================
    Loading Spinner
