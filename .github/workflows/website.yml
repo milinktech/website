@@ -1,42 +1,46 @@
-name: Build and deploy .NET Core application to Web App fww-website
+name: Build and deploy .NET Blazor WebAssembly to Static Web App
+
 on:
   pull_request:
-    types:
-    - opened
-    - synchronize
-    - reopened
-    - closed
-    branches:
-    - main
+    types: [opened, synchronize, reopened, closed]
+    branches: [ main ]
   push:
-    branches:
-    - main
+    branches: [ main ]
+
 env:
   AZURE_STATIC_WEBAPP_NAME: fww-website
-  APP_DIRECTORY: FWW.Site
-  API_DIRECTORY: ''
-  OUTPUT: wwwroot
+  APP_PROJECT: src/FWW.Site.UI/FWW.Site.UI.csproj
+  BUILD_OUTPUT: build
   DEPLOYMENT_ENVIRONMENT: preview
+
 jobs:
   build_and_deploy_job:
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     name: Build and Deploy Job
     runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
       with:
-        submodules: true
+        dotnet-version: '8.0.x'
+
+    - name: Publish Blazor WebAssembly
+      run: dotnet publish ${{ env.APP_PROJECT }} -c Release -o ${{ env.BUILD_OUTPUT }}
+
     - id: builddeploy
-      name: Build And Deploy
+      name: Deploy Static Web App
       uses: Azure/static-web-apps-deploy@v1
       with:
         azure_static_web_apps_api_token: ${{ secrets.fww_website_SPN }}
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
         action: upload
-        deployment_environment: ${{env.DEPLOYMENT_ENVIRONMENT}}
-        app_location: ${{ env.APP_DIRECTORY }}
-        api_location: ${{ env.API_DIRECTORY }}
-        output_location: ${{ env.OUTPUT }}
+        app_location: "${{ env.BUILD_OUTPUT }}/wwwroot"
+        api_location: ""      # unless you have functions
+        output_location: ""   # do NOT use this for Blazor
+        deployment_environment: ${{ env.DEPLOYMENT_ENVIRONMENT }}
+
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
     name: Close Pull Request Job
@@ -48,4 +52,3 @@ jobs:
       with:
         azure_static_web_apps_api_token: ${{ secrets.fww_website_SPN }}
         action: close
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
