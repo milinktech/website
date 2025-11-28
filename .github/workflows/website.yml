@@ -25,7 +25,7 @@ jobs:
         dotnet-version: '8.0.x'
 
     - name: Publish Blazor WebAssembly
-      run: dotnet publish src/FWW.Site.UI/FWW.Site.csproj -c Release -o build
+      run: dotnet publish src/FWW.Site.UI/FWW.Site.UI.csproj -c Release -o build
 
     - name: Login to Azure using OIDC
       uses: azure/login@v1
