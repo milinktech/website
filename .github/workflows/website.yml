@@ -1,4 +1,4 @@
-name: Build and deploy .NET Blazor WebAssembly to Static Web App
+name: Build and deploy Blazor WebAssembly to Azure Static Web Apps
 
 on:
   pull_request:
@@ -8,7 +8,6 @@ on:
     branches: [ main ]
 
 env:
-  AZURE_STATIC_WEBAPP_NAME: fww-website
   APP_PROJECT: src/FWW.Site.UI/FWW.Site.UI.csproj
   BUILD_OUTPUT: build
   DEPLOYMENT_ENVIRONMENT: preview
@@ -22,33 +21,37 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    # Install .NET SDK
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '8.0.x'
 
+    # Build & publish Blazor WASM
     - name: Publish Blazor WebAssembly
       run: dotnet publish ${{ env.APP_PROJECT }} -c Release -o ${{ env.BUILD_OUTPUT }}
 
-    - id: builddeploy
-      name: Deploy Static Web App
+    # Deploy to Azure Static Web Apps
+    - name: Deploy to Azure Static Web Apps
       uses: Azure/static-web-apps-deploy@v1
+      id: swa
       with:
-        azure_static_web_apps_api_token: ${{ secrets.fww_website_SPN }}
+        azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}  # you set this
         action: upload
         app_location: "${{ env.BUILD_OUTPUT }}/wwwroot"
-        api_location: ""      # unless you have functions
-        output_location: ""   # do NOT use this for Blazor
+        api_location: ""        # no API folder yet
+        output_location: ""     # required for Blazor
         deployment_environment: ${{ env.DEPLOYMENT_ENVIRONMENT }}
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
     name: Close Pull Request Job
     runs-on: ubuntu-latest
+
     steps:
-    - id: closepullrequest
-      name: Close Pull Request
+    - name: Close Pull Request Deployment
+      id: closepullrequest
       uses: Azure/static-web-apps-deploy@v1
       with:
-        azure_static_web_apps_api_token: ${{ secrets.fww_website_SPN }}
+        azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
         action: close
