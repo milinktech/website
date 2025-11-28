@@ -32,8 +32,7 @@ jobs:
       id: idtoken
       uses: actions/github-script@v6
       with:
-        script: |
-          const core = require('@actions/core');
+        script: |         
           return await core.getIDToken();
         result-encoding: string
 
