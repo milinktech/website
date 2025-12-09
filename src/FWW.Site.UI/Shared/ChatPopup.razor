@@ -1,0 +1,182 @@
+@* Chat Popup Component - AI Agent Ready *@
+
+<div class="chat-popup-container">
+    @* Chat Toggle Button *@
+    <button class="chat-toggle-btn @(isOpen ? "open" : "")" @onclick="ToggleChat" aria-label="Toggle chat">
+        @if (isOpen)
+        {
+            <span class="material-symbols-outlined">close</span>
+        }
+        else
+        {
+            <span class="material-symbols-outlined">chat</span>
+        }
+    </button>
+
+    @* Chat Window *@
+    <div class="chat-window @(isOpen ? "open" : "")">
+        @* Chat Header *@
+        <div class="chat-header">
+            <div class="chat-header-info">
+                <div class="chat-avatar">
+                    <span class="material-symbols-outlined">smart_toy</span>
+                </div>
+                <div class="chat-header-text">
+                    <h3 class="chat-title">FOCUS Assistant</h3>
+                    <span class="chat-status">
+                        <span class="status-dot"></span>
+                        Online
+                    </span>
+                </div>
+            </div>
+            <button class="chat-minimize-btn" @onclick="ToggleChat" aria-label="Close chat">
+                <span class="material-symbols-outlined">remove</span>
+            </button>
+        </div>
+
+        @* Chat Messages *@
+        <div class="chat-messages" @ref="messagesContainer">
+            @foreach (var message in messages)
+            {
+                <div class="chat-message @(message.IsUser ? "user" : "bot")">
+                    @if (!message.IsUser)
+                    {
+                        <div class="message-avatar">
+                            <span class="material-symbols-outlined">smart_toy</span>
+                        </div>
+                    }
+                    <div class="message-bubble">
+                        <p>@message.Text</p>
+                        <span class="message-time">@message.Time.ToString("h:mm tt")</span>
+                    </div>
+                </div>
+            }
+            @if (isTyping)
+            {
+                <div class="chat-message bot">
+                    <div class="message-avatar">
+                        <span class="material-symbols-outlined">smart_toy</span>
+                    </div>
+                    <div class="message-bubble typing">
+                        <div class="typing-indicator">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        @* Chat Input *@
+        <div class="chat-input-container">
+            <input 
+                type="text" 
+                class="chat-input" 
+                placeholder="Type your message..." 
+                @bind="currentMessage" 
+                @bind:event="oninput"
+                @onkeydown="HandleKeyDown" />
+            <button class="chat-send-btn" @onclick="SendMessage" disabled="@(string.IsNullOrWhiteSpace(currentMessage))">
+                <span class="material-symbols-outlined">send</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+@code {
+    private bool isOpen = false;
+    private bool isTyping = false;
+    private string currentMessage = "";
+    private List<ChatMessage> messages = new();
+    private ElementReference messagesContainer;
+
+    protected override void OnInitialized()
+    {
+        // Add welcome message
+        messages.Add(new ChatMessage
+        {
+            Text = "Hello! 👋 Welcome to FOCUS Logistics. How can I help you today?",
+            IsUser = false,
+            Time = DateTime.Now
+        });
+    }
+
+    private void ToggleChat()
+    {
+        isOpen = !isOpen;
+    }
+
+    private async Task HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter" && !string.IsNullOrWhiteSpace(currentMessage))
+        {
+            await SendMessage();
+        }
+    }
+
+    private async Task SendMessage()
+    {
+        if (string.IsNullOrWhiteSpace(currentMessage)) return;
+
+        // Add user message
+        messages.Add(new ChatMessage
+        {
+            Text = currentMessage,
+            IsUser = true,
+            Time = DateTime.Now
+        });
+
+        var userInput = currentMessage;
+        currentMessage = "";
+        StateHasChanged();
+
+        // Show typing indicator
+        isTyping = true;
+        StateHasChanged();
+
+        // Simulate AI response delay (replace with actual AI integration later)
+        await Task.Delay(1500);
+
+        // Add bot response (placeholder - will be replaced with AI agent)
+        isTyping = false;
+        messages.Add(new ChatMessage
+        {
+            Text = GetPlaceholderResponse(userInput),
+            IsUser = false,
+            Time = DateTime.Now
+        });
+
+        StateHasChanged();
+    }
+
+    private string GetPlaceholderResponse(string userInput)
+    {
+        // Placeholder responses - will be replaced with AI agent
+        var lowerInput = userInput.ToLowerInvariant();
+        
+        if (lowerInput.Contains("track") || lowerInput.Contains("shipment"))
+            return "To track your shipment, please provide your tracking number or visit our tracking page. Would you like me to guide you there?";
+        
+        if (lowerInput.Contains("quote") || lowerInput.Contains("price") || lowerInput.Contains("cost"))
+            return "I'd be happy to help you get a quote! You can request one through our Quote page, or I can connect you with our sales team.";
+        
+        if (lowerInput.Contains("service"))
+            return "We offer Ocean Freight, Air Freight, Land Transport, and Warehouse Solutions. Which service would you like to know more about?";
+        
+        if (lowerInput.Contains("contact") || lowerInput.Contains("phone") || lowerInput.Contains("email"))
+            return "You can reach us at contact@focuslogistics.com or call us at +1 (800) 555-0123. Would you like me to take you to the contact page?";
+        
+        if (lowerInput.Contains("hello") || lowerInput.Contains("hi") || lowerInput.Contains("hey"))
+            return "Hello! Great to hear from you. How can I assist you with your logistics needs today?";
+        
+        return "Thank you for your message! Our AI assistant is being set up and will be fully operational soon. In the meantime, feel free to browse our services or contact us directly.";
+    }
+
+    private class ChatMessage
+    {
+        public string Text { get; set; } = "";
+        public bool IsUser { get; set; }
+        public DateTime Time { get; set; }
+    }
+}
