@@ -11,6 +11,8 @@ builder.ConfigureFunctionsWebApplication();
 // Register services
 builder.Services.AddHttpClient<DataverseService>();
 builder.Services.AddSingleton<DataverseService>();
+builder.Services.AddHttpClient<AiFoundryService>();
+builder.Services.AddSingleton<AiFoundryService>();
 
 builder.Services
     .AddApplicationInsightsTelemetryWorkerService()

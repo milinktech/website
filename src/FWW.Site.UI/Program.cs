@@ -15,6 +15,7 @@ builder.Services.AddScoped(sp => new HttpClient
 
 // Register services
 builder.Services.AddScoped<TrackingService>();
+builder.Services.AddScoped<ChatService>();
 
 // Configure MSAL Authentication
 builder.Services.AddMsalAuthentication(options =>

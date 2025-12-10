@@ -1,4 +1,6 @@
-@* Chat Popup Component - AI Agent Ready *@
+@* Chat Popup Component - AI Agent Integrated *@
+@using FWW.Site.UI.Services
+@inject ChatService ChatService
 
 <div class="chat-popup-container">
     @* Chat Toggle Button *@
@@ -70,14 +72,14 @@
 
         @* Chat Input *@
         <div class="chat-input-container">
-            <input 
-                type="text" 
-                class="chat-input" 
-                placeholder="Type your message..." 
-                @bind="currentMessage" 
-                @bind:event="oninput"
-                @onkeydown="HandleKeyDown" />
-            <button class="chat-send-btn" @onclick="SendMessage" disabled="@(string.IsNullOrWhiteSpace(currentMessage))">
+            <input type="text" 
+                   class="chat-input" 
+                   placeholder="Type a message..." 
+                   @bind="currentMessage"
+                   @bind:event="oninput"
+                   @onkeydown="HandleKeyDown"
+                   disabled="@isTyping" />
+            <button class="chat-send-btn" @onclick="SendMessage" disabled="@(isTyping || string.IsNullOrWhiteSpace(currentMessage))">
                 <span class="material-symbols-outlined">send</span>
             </button>
         </div>
@@ -88,15 +90,15 @@
     private bool isOpen = false;
     private bool isTyping = false;
     private string currentMessage = "";
-    private List<ChatMessage> messages = new();
+    private List<ChatHistoryItem> messages = new();
     private ElementReference messagesContainer;
 
     protected override void OnInitialized()
     {
         // Add welcome message
-        messages.Add(new ChatMessage
+        messages.Add(new ChatHistoryItem
         {
-            Text = "Hello! 👋 Welcome to FOCUS Logistics. How can I help you today?",
+            Text = "Hi! I'm the FOCUS Assistant. How can I help you with your logistics needs today?",
             IsUser = false,
             Time = DateTime.Now
         });
@@ -109,7 +111,7 @@
 
     private async Task HandleKeyDown(KeyboardEventArgs e)
     {
-        if (e.Key == "Enter" && !string.IsNullOrWhiteSpace(currentMessage))
+        if (e.Key == "Enter" && !string.IsNullOrWhiteSpace(currentMessage) && !isTyping)
         {
             await SendMessage();
         }
@@ -117,15 +119,16 @@
 
     private async Task SendMessage()
     {
-        if (string.IsNullOrWhiteSpace(currentMessage)) return;
+        if (string.IsNullOrWhiteSpace(currentMessage) || isTyping) return;
 
         // Add user message
-        messages.Add(new ChatMessage
+        var userMessage = new ChatHistoryItem
         {
             Text = currentMessage,
             IsUser = true,
             Time = DateTime.Now
-        });
+        };
+        messages.Add(userMessage);
 
         var userInput = currentMessage;
         currentMessage = "";
@@ -135,48 +138,33 @@
         isTyping = true;
         StateHasChanged();
 
-        // Simulate AI response delay (replace with actual AI integration later)
-        await Task.Delay(1500);
-
-        // Add bot response (placeholder - will be replaced with AI agent)
-        isTyping = false;
-        messages.Add(new ChatMessage
+        try
         {
-            Text = GetPlaceholderResponse(userInput),
-            IsUser = false,
-            Time = DateTime.Now
-        });
+            // Call AI chat service
+            var response = await ChatService.SendMessageAsync(userInput, messages.Take(messages.Count - 1).ToList());
 
-        StateHasChanged();
-    }
-
-    private string GetPlaceholderResponse(string userInput)
-    {
-        // Placeholder responses - will be replaced with AI agent
-        var lowerInput = userInput.ToLowerInvariant();
-        
-        if (lowerInput.Contains("track") || lowerInput.Contains("shipment"))
-            return "To track your shipment, please provide your tracking number or visit our tracking page. Would you like me to guide you there?";
-        
-        if (lowerInput.Contains("quote") || lowerInput.Contains("price") || lowerInput.Contains("cost"))
-            return "I'd be happy to help you get a quote! You can request one through our Quote page, or I can connect you with our sales team.";
-        
-        if (lowerInput.Contains("service"))
-            return "We offer Ocean Freight, Air Freight, Land Transport, and Warehouse Solutions. Which service would you like to know more about?";
-        
-        if (lowerInput.Contains("contact") || lowerInput.Contains("phone") || lowerInput.Contains("email"))
-            return "You can reach us at contact@focuslogistics.com or call us at +1 (800) 555-0123. Would you like me to take you to the contact page?";
-        
-        if (lowerInput.Contains("hello") || lowerInput.Contains("hi") || lowerInput.Contains("hey"))
-            return "Hello! Great to hear from you. How can I assist you with your logistics needs today?";
-        
-        return "Thank you for your message! Our AI assistant is being set up and will be fully operational soon. In the meantime, feel free to browse our services or contact us directly.";
-    }
-
-    private class ChatMessage
-    {
-        public string Text { get; set; } = "";
-        public bool IsUser { get; set; }
-        public DateTime Time { get; set; }
+            // Add bot response
+            messages.Add(new ChatHistoryItem
+            {
+                Text = response.Message,
+                IsUser = false,
+                Time = DateTime.Now
+            });
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Chat error: {ex.Message}");
+            messages.Add(new ChatHistoryItem
+            {
+                Text = "Sorry, I'm having trouble responding right now. Please try again.",
+                IsUser = false,
+                Time = DateTime.Now
+            });
+        }
+        finally
+        {
+            isTyping = false;
+            StateHasChanged();
+        }
     }
 }

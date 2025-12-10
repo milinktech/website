@@ -15,8 +15,9 @@ public class DataverseService
     private readonly IConfiguration _configuration;
     private readonly ILogger<DataverseService> _logger;
 
-    private string? _accessToken;
-    private DateTime _tokenExpiry = DateTime.MinValue;
+    // TODO: Add these fields when implementing actual Dataverse auth
+    // private string? _accessToken;
+    // private DateTime _tokenExpiry = DateTime.MinValue;
 
     public DataverseService(HttpClient httpClient, IConfiguration configuration, ILogger<DataverseService> logger)
     {
