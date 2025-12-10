@@ -1,0 +1,238 @@
+@* Unit Converter Component - Logistics Measurement Calculator *@
+
+<div class="unit-converter-container">
+    <h2 class="section-title" style="margin-bottom: 2rem;">Unit Converter</h2>
+    
+    <div class="grid grid-cols-1 grid-cols-2-md" style="gap: 2rem;">
+        <!-- Weight Converter -->
+        <div class="card converter-card">
+            <div class="card-icon">
+                <span class="material-symbols-outlined" style="font-size: 2rem;">scale</span>
+            </div>
+            <h3 class="card-title">Weight Conversion</h3>
+            
+            <div class="converter-inputs">
+                <div class="form-group">
+                    <label class="form-label">Kilograms (kg)</label>
+                    <input type="number" class="form-input" step="0.01" 
+                           @bind="weightKg" @bind:event="oninput" @bind:after="OnWeightKgChanged" 
+                           placeholder="0.00" />
+                </div>
+                <div class="converter-arrow">
+                    <span class="material-symbols-outlined">swap_horiz</span>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Pounds (lb)</label>
+                    <input type="number" class="form-input" step="0.01" 
+                           @bind="weightLb" @bind:event="oninput" @bind:after="OnWeightLbChanged" 
+                           placeholder="0.00" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Length Converter -->
+        <div class="card converter-card">
+            <div class="card-icon">
+                <span class="material-symbols-outlined" style="font-size: 2rem;">straighten</span>
+            </div>
+            <h3 class="card-title">Length Conversion</h3>
+            
+            <div class="converter-inputs">
+                <div class="form-group">
+                    <label class="form-label">Centimeters (cm)</label>
+                    <input type="number" class="form-input" step="0.01" 
+                           @bind="lengthCm" @bind:event="oninput" @bind:after="OnLengthCmChanged" 
+                           placeholder="0.00" />
+                </div>
+                <div class="converter-arrow">
+                    <span class="material-symbols-outlined">swap_horiz</span>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Inches (in)</label>
+                    <input type="number" class="form-input" step="0.01" 
+                           @bind="lengthIn" @bind:event="oninput" @bind:after="OnLengthInChanged" 
+                           placeholder="0.00" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Volume Converter -->
+        <div class="card converter-card">
+            <div class="card-icon">
+                <span class="material-symbols-outlined" style="font-size: 2rem;">deployed_code</span>
+            </div>
+            <h3 class="card-title">Volume Conversion</h3>
+            
+            <div class="converter-inputs">
+                <div class="form-group">
+                    <label class="form-label">Cubic Meters (m³)</label>
+                    <input type="number" class="form-input" step="0.0001" 
+                           @bind="volumeM3" @bind:event="oninput" @bind:after="OnVolumeM3Changed" 
+                           placeholder="0.0000" />
+                </div>
+                <div class="converter-arrow">
+                    <span class="material-symbols-outlined">swap_horiz</span>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Cubic Feet (ft³)</label>
+                    <input type="number" class="form-input" step="0.001" 
+                           @bind="volumeFt3" @bind:event="oninput" @bind:after="OnVolumeFt3Changed" 
+                           placeholder="0.000" />
+                </div>
+            </div>
+        </div>
+
+        <!-- CBM Calculator -->
+        <div class="card converter-card">
+            <div class="card-icon">
+                <span class="material-symbols-outlined" style="font-size: 2rem;">package_2</span>
+            </div>
+            <h3 class="card-title">CBM Calculator</h3>
+            
+            <div class="cbm-inputs">
+                <div class="form-group">
+                    <label class="form-label">Length (cm)</label>
+                    <input type="number" class="form-input" step="0.1" 
+                           @bind="cbmLength" @bind:event="oninput" @bind:after="CalculateCbm" 
+                           placeholder="0" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Width (cm)</label>
+                    <input type="number" class="form-input" step="0.1" 
+                           @bind="cbmWidth" @bind:event="oninput" @bind:after="CalculateCbm" 
+                           placeholder="0" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Height (cm)</label>
+                    <input type="number" class="form-input" step="0.1" 
+                           @bind="cbmHeight" @bind:event="oninput" @bind:after="CalculateCbm" 
+                           placeholder="0" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Quantity</label>
+                    <input type="number" class="form-input" 
+                           @bind="cbmQuantity" @bind:event="oninput" @bind:after="CalculateCbm" 
+                           placeholder="1" min="1" />
+                </div>
+            </div>
+            
+            <div class="cbm-result">
+                <div class="result-item">
+                    <span class="result-label">Total CBM</span>
+                    <span class="result-value">@totalCbm.ToString("F4") m³</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Total CFT</span>
+                    <span class="result-value">@(totalCbm * 35.3147m).ToString("F2") ft³</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Reference -->
+    <div class="card" style="margin-top: 2rem;">
+        <h3 class="card-title">Quick Reference</h3>
+        <div class="grid grid-cols-1 grid-cols-3-md" style="gap: 1rem; margin-top: 1rem;">
+            <div class="reference-item">
+                <span class="reference-label">1 kg =</span>
+                <span class="reference-value">2.20462 lb</span>
+            </div>
+            <div class="reference-item">
+                <span class="reference-label">1 cm =</span>
+                <span class="reference-value">0.393701 in</span>
+            </div>
+            <div class="reference-item">
+                <span class="reference-label">1 m³ =</span>
+                <span class="reference-value">35.3147 ft³</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    // Weight conversion
+    private decimal? weightKg;
+    private decimal? weightLb;
+    private const decimal KG_TO_LB = 2.20462m;
+
+    // Length conversion
+    private decimal? lengthCm;
+    private decimal? lengthIn;
+    private const decimal CM_TO_IN = 0.393701m;
+
+    // Volume conversion
+    private decimal? volumeM3;
+    private decimal? volumeFt3;
+    private const decimal M3_TO_FT3 = 35.3147m;
+
+    // CBM Calculator
+    private decimal? cbmLength;
+    private decimal? cbmWidth;
+    private decimal? cbmHeight;
+    private int cbmQuantity = 1;
+    private decimal totalCbm = 0;
+
+    private void OnWeightKgChanged()
+    {
+        if (weightKg.HasValue)
+            weightLb = Math.Round(weightKg.Value * KG_TO_LB, 4);
+        else
+            weightLb = null;
+    }
+
+    private void OnWeightLbChanged()
+    {
+        if (weightLb.HasValue)
+            weightKg = Math.Round(weightLb.Value / KG_TO_LB, 4);
+        else
+            weightKg = null;
+    }
+
+    private void OnLengthCmChanged()
+    {
+        if (lengthCm.HasValue)
+            lengthIn = Math.Round(lengthCm.Value * CM_TO_IN, 4);
+        else
+            lengthIn = null;
+    }
+
+    private void OnLengthInChanged()
+    {
+        if (lengthIn.HasValue)
+            lengthCm = Math.Round(lengthIn.Value / CM_TO_IN, 4);
+        else
+            lengthCm = null;
+    }
+
+    private void OnVolumeM3Changed()
+    {
+        if (volumeM3.HasValue)
+            volumeFt3 = Math.Round(volumeM3.Value * M3_TO_FT3, 4);
+        else
+            volumeFt3 = null;
+    }
+
+    private void OnVolumeFt3Changed()
+    {
+        if (volumeFt3.HasValue)
+            volumeM3 = Math.Round(volumeFt3.Value / M3_TO_FT3, 4);
+        else
+            volumeM3 = null;
+    }
+
+    private void CalculateCbm()
+    {
+        if (cbmLength.HasValue && cbmWidth.HasValue && cbmHeight.HasValue && cbmQuantity > 0)
+        {
+            // Convert cm to m and calculate CBM
+            var l = cbmLength.Value / 100m;
+            var w = cbmWidth.Value / 100m;
+            var h = cbmHeight.Value / 100m;
+            totalCbm = l * w * h * cbmQuantity;
+        }
+        else
+        {
+            totalCbm = 0;
+        }
+    }
+}

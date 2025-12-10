@@ -1543,3 +1543,111 @@ a:hover {
         height: 3rem;
     }
 }
+
+/* ============================================
+   Unit Converter Component
+   ============================================ */
+.unit-converter-container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.converter-card {
+    padding: 1.5rem;
+}
+
+.converter-inputs {
+    display: flex;
+    align-items: flex-end;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.converter-inputs .form-group {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.converter-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary);
+    padding-bottom: 0.5rem;
+}
+
+.converter-arrow .material-symbols-outlined {
+    font-size: 24px;
+}
+
+.cbm-inputs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+@media (min-width: 480px) {
+    .cbm-inputs {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.cbm-inputs .form-group {
+    margin-bottom: 0;
+}
+
+.cbm-result {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border);
+}
+
+.result-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.result-label {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+}
+
+.result-value {
+    font-size: 1.5rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+}
+
+.reference-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    background-color: var(--color-bg-secondary);
+    border-radius: var(--radius-lg);
+}
+
+.reference-label {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+}
+
+.reference-value {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-primary);
+}
+
+/* User Menu Styles */
+.user-menu {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.user-name {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+}
