@@ -1,4 +1,5 @@
 @* LoginDisplay Component - Shows login/logout buttons based on auth state *@
+@inject NavigationManager Navigation
 
 <AuthorizeView>
     <Authorized>
@@ -19,15 +20,8 @@
 </AuthorizeView>
 
 @code {
-    private async Task BeginLogout()
+    private void BeginLogout()
     {
-        await SignOutManager.SetSignOutState();
-        Navigation.NavigateTo("authentication/logout");
+        Navigation.NavigateToLogout("authentication/logout");
     }
-
-    [Inject]
-    private NavigationManager Navigation { get; set; } = default!;
-
-    [Inject]
-    private SignOutSessionStateManager SignOutManager { get; set; } = default!;
 }

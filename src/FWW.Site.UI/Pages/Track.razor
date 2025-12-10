@@ -1,0 +1,199 @@
+@page "/track"
+@using FWW.Site.UI.Services
+@inject TrackingService TrackingService
+
+<PageTitle>Track Your Shipment - FOCUS</PageTitle>
+
+<!-- Hero Section -->
+<section class="hero" style="min-height: 320px; background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);">
+    <div class="hero-content">
+        <h1 class="hero-title">Track Your Shipment</h1>
+        <p class="hero-subtitle">Enter your tracking number to get real-time updates on your shipment status.</p>
+    </div>
+</section>
+
+<!-- Tracking Form Section -->
+<section class="section">
+    <div class="section-container" style="max-width: 800px; margin: 0 auto;">
+        <div class="card" style="padding: 2rem;">
+            <div class="tracking-form">
+                <div class="form-group">
+                    <label class="form-label">Tracking Number</label>
+                    <div style="display: flex; gap: 1rem;">
+                        <input type="text" class="form-input" 
+                               @bind="trackingNumber" 
+                               @bind:event="oninput"
+                               @onkeydown="HandleKeyDown"
+                               placeholder="Enter your tracking number (e.g., FWW123456)" />
+                        <button class="btn btn-primary" @onclick="SearchTracking" disabled="@isLoading">
+                            @if (isLoading)
+                            {
+                                <span>Searching...</span>
+                            }
+                            else
+                            {
+                                <span class="material-symbols-outlined" style="font-size: 20px;">search</span>
+                                <span>Track</span>
+                            }
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @if (errorMessage != null)
+        {
+            <div class="card" style="margin-top: 1.5rem; padding: 1.5rem; border-left: 4px solid var(--color-secondary);">
+                <p style="color: var(--color-secondary); margin: 0;">
+                    <span class="material-symbols-outlined" style="vertical-align: middle;">error</span>
+                    @errorMessage
+                </p>
+            </div>
+        }
+
+        @if (trackingResult != null)
+        {
+            <div class="card" style="margin-top: 2rem; padding: 2rem;">
+                <!-- Status Header -->
+                <div class="tracking-header">
+                    <div class="tracking-status">
+                        <span class="material-symbols-outlined status-icon @GetStatusClass(trackingResult.Status)">
+                            @GetStatusIcon(trackingResult.Status)
+                        </span>
+                        <div>
+                            <h2 style="margin: 0;">@trackingResult.Status</h2>
+                            <p style="margin: 0; color: var(--color-text-secondary);">@trackingResult.StatusDescription</p>
+                        </div>
+                    </div>
+                    <div class="tracking-number-display">
+                        <span style="color: var(--color-text-secondary);">Tracking #</span>
+                        <strong>@trackingResult.TrackingNumber</strong>
+                    </div>
+                </div>
+
+                <!-- Route Info -->
+                <div class="tracking-route">
+                    <div class="route-point">
+                        <span class="material-symbols-outlined">flight_takeoff</span>
+                        <div>
+                            <span style="color: var(--color-text-secondary); font-size: 0.875rem;">Origin</span>
+                            <strong>@trackingResult.Origin</strong>
+                        </div>
+                    </div>
+                    <div class="route-line"></div>
+                    <div class="route-point">
+                        <span class="material-symbols-outlined">flight_land</span>
+                        <div>
+                            <span style="color: var(--color-text-secondary); font-size: 0.875rem;">Destination</span>
+                            <strong>@trackingResult.Destination</strong>
+                        </div>
+                    </div>
+                </div>
+
+                @if (trackingResult.EstimatedArrival.HasValue)
+                {
+                    <div class="tracking-eta">
+                        <span class="material-symbols-outlined">schedule</span>
+                        <span>Estimated Arrival: <strong>@trackingResult.EstimatedArrival.Value.ToString("MMMM dd, yyyy")</strong></span>
+                    </div>
+                }
+
+                <!-- Tracking Timeline -->
+                @if (trackingResult.Events.Any())
+                {
+                    <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Shipment History</h3>
+                    <div class="tracking-timeline">
+                        @foreach (var evt in trackingResult.Events)
+                        {
+                            <div class="timeline-event">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-content">
+                                    <div class="timeline-header">
+                                        <strong>@evt.Status</strong>
+                                        <span class="timeline-date">@evt.Timestamp.ToString("MMM dd, yyyy HH:mm")</span>
+                                    </div>
+                                    <p style="margin: 0.25rem 0 0 0; color: var(--color-text-secondary);">
+                                        <span class="material-symbols-outlined" style="font-size: 16px; vertical-align: middle;">location_on</span>
+                                        @evt.Location
+                                    </p>
+                                    <p style="margin: 0.25rem 0 0 0;">@evt.Description</p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</section>
+
+@code {
+    private string trackingNumber = "";
+    private bool isLoading = false;
+    private string? errorMessage = null;
+    private TrackingResult? trackingResult = null;
+
+    private async Task HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter" && !string.IsNullOrWhiteSpace(trackingNumber))
+        {
+            await SearchTracking();
+        }
+    }
+
+    private async Task SearchTracking()
+    {
+        if (string.IsNullOrWhiteSpace(trackingNumber))
+        {
+            errorMessage = "Please enter a tracking number";
+            return;
+        }
+
+        isLoading = true;
+        errorMessage = null;
+        trackingResult = null;
+
+        try
+        {
+            trackingResult = await TrackingService.GetPublicTrackingAsync(trackingNumber.Trim());
+            
+            if (trackingResult == null)
+            {
+                errorMessage = $"No shipment found with tracking number: {trackingNumber}";
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = "Unable to retrieve tracking information. Please try again later.";
+            Console.WriteLine($"Error: {ex.Message}");
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private string GetStatusIcon(string status)
+    {
+        return status switch
+        {
+            "Pending" => "hourglass_empty",
+            "In Transit" => "local_shipping",
+            "Customs Clearance" => "gavel",
+            "Out for Delivery" => "delivery_truck_speed",
+            "Delivered" => "check_circle",
+            _ => "package_2"
+        };
+    }
+
+    private string GetStatusClass(string status)
+    {
+        return status switch
+        {
+            "Delivered" => "status-delivered",
+            "Out for Delivery" => "status-active",
+            "In Transit" => "status-active",
+            _ => "status-pending"
+        };
+    }
+}

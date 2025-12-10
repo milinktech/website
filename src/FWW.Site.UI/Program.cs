@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using FWW.Site.UI;
+using FWW.Site.UI.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -11,6 +12,9 @@ builder.Services.AddScoped(sp => new HttpClient
 { 
     BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) 
 });
+
+// Register services
+builder.Services.AddScoped<TrackingService>();
 
 // Configure MSAL Authentication
 builder.Services.AddMsalAuthentication(options =>
@@ -26,3 +30,4 @@ builder.Services.AddMsalAuthentication(options =>
 });
 
 await builder.Build().RunAsync();
+
