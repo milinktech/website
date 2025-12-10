@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "FWW.Site.Functions": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7148",
+      "launchBrowser": false
+    }
+  }
+}
