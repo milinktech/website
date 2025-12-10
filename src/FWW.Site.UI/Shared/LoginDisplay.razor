@@ -1,0 +1,33 @@
+@* LoginDisplay Component - Shows login/logout buttons based on auth state *@
+
+<AuthorizeView>
+    <Authorized>
+        <div class="user-menu">
+            <span class="user-name">Hello, @context.User.Identity?.Name</span>
+            <button class="btn btn-light btn-rounded" @onclick="BeginLogout">
+                <span class="material-symbols-outlined" style="font-size: 18px; margin-right: 0.25rem;">logout</span>
+                Logout
+            </button>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <a href="authentication/login" class="btn btn-light btn-rounded">
+            <span class="material-symbols-outlined" style="font-size: 18px; margin-right: 0.25rem;">login</span>
+            Staff Login
+        </a>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private async Task BeginLogout()
+    {
+        await SignOutManager.SetSignOutState();
+        Navigation.NavigateTo("authentication/logout");
+    }
+
+    [Inject]
+    private NavigationManager Navigation { get; set; } = default!;
+
+    [Inject]
+    private SignOutSessionStateManager SignOutManager { get; set; } = default!;
+}
