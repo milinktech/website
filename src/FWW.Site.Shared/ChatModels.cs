@@ -1,4 +1,4 @@
-namespace FWW.Site.Functions.Models;
+namespace FWW.Site.Shared.Models;
 
 /// <summary>
 /// Chat request from frontend

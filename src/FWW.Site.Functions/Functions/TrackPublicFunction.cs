@@ -1,4 +1,4 @@
-using FWW.Site.Functions.Models;
+using FWW.Site.Shared.Models;
 using FWW.Site.Functions.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

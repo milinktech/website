@@ -1,4 +1,4 @@
-using FWW.Site.Functions.Models;
+using FWW.Site.Shared.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System.Net.Http.Headers;

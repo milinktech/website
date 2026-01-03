@@ -1,6 +1,7 @@
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
+using FWW.Site.Shared.Models;
 
 namespace FWW.Site.UI.Services;
 
@@ -20,18 +21,18 @@ public class ChatService
     /// <summary>
     /// Send a message to the AI chat agent
     /// </summary>
-    public async Task<ChatApiResponse> SendMessageAsync(string message, List<ChatHistoryItem>? history = null)
+    public async Task<ChatResponse> SendMessageAsync(string message, List<ChatHistoryItem>? history = null)
     {
         try
         {
-            var request = new ChatApiRequest
+            var request = new ChatRequest
             {
                 Message = message,
-                History = history?.Select(h => new ChatApiMessage
+                History = history?.Select(h => new ChatMessage
                 {
                     Role = h.IsUser ? "user" : "assistant",
                     Content = h.Text
-                }).ToList() ?? new List<ChatApiMessage>(),
+                }).ToList() ?? new List<ChatMessage>(),
                 SessionId = _sessionId
             };
 
@@ -45,7 +46,7 @@ public class ChatService
 
             if (response.IsSuccessStatusCode)
             {
-                var result = await response.Content.ReadFromJsonAsync<ChatApiResponse>(new JsonSerializerOptions
+                var result = await response.Content.ReadFromJsonAsync<ChatResponse>(new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
                 });
@@ -58,7 +59,7 @@ public class ChatService
             }
 
             // Fallback on error
-            return new ChatApiResponse
+            return new ChatResponse
             {
                 Message = "I'm having trouble connecting right now. Please try again in a moment.",
                 Success = false
@@ -67,43 +68,13 @@ public class ChatService
         catch (Exception ex)
         {
             Console.WriteLine($"Chat error: {ex.Message}");
-            return new ChatApiResponse
+            return new ChatResponse
             {
                 Message = "I'm sorry, something went wrong. Please try again.",
                 Success = false
             };
         }
     }
-}
-
-/// <summary>
-/// Request to chat API
-/// </summary>
-public class ChatApiRequest
-{
-    public string Message { get; set; } = string.Empty;
-    public List<ChatApiMessage> History { get; set; } = new();
-    public string? SessionId { get; set; }
-}
-
-/// <summary>
-/// Message in chat history for API
-/// </summary>
-public class ChatApiMessage
-{
-    public string Role { get; set; } = "user";
-    public string Content { get; set; } = string.Empty;
-}
-
-/// <summary>
-/// Response from chat API
-/// </summary>
-public class ChatApiResponse
-{
-    public string Message { get; set; } = string.Empty;
-    public string? SessionId { get; set; }
-    public bool Success { get; set; } = true;
-    public string? Error { get; set; }
 }
 
 /// <summary>

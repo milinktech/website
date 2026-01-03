@@ -1,27 +1,55 @@
-@* LoginDisplay Component - Shows login/logout buttons based on auth state *@
+@using System.Net.Http.Json
+@inject HttpClient Http
 @inject NavigationManager Navigation
 
-<AuthorizeView>
-    <Authorized>
-        <div class="user-menu">
-            <span class="user-name">Hello, @context.User.Identity?.Name</span>
-            <button class="btn btn-light btn-rounded" @onclick="BeginLogout">
-                <span class="material-symbols-outlined" style="font-size: 18px; margin-right: 0.25rem;">logout</span>
-                Logout
-            </button>
-        </div>
-    </Authorized>
-    <NotAuthorized>
-        <a href="authentication/login" class="btn btn-light btn-rounded">
-            <span class="material-symbols-outlined" style="font-size: 18px; margin-right: 0.25rem;">login</span>
-            Staff Login
+@if (isAuthenticated)
+{
+    <div class="user-menu">
+        <span class="user-name">Hello, @userName</span>
+        <a href="/.auth/logout?post_logout_redirect_uri=/" class="btn btn-light btn-rounded">
+            <span class="material-symbols-outlined" style="font-size: 18px; margin-right: 0.25rem;">logout</span>
+            Logout
         </a>
-    </NotAuthorized>
-</AuthorizeView>
+    </div>
+}
+else
+{
+    <a href="/.auth/login/aad?post_login_redirect_uri=@Navigation.Uri" class="btn btn-light btn-rounded">
+        <span class="material-symbols-outlined" style="font-size: 18px; margin-right: 0.25rem;">login</span>
+        Staff Login
+    </a>
+}
 
 @code {
-    private void BeginLogout()
+    private bool isAuthenticated = false;
+    private string userName = string.Empty;
+
+    protected override async Task OnInitializedAsync()
     {
-        Navigation.NavigateToLogout("authentication/logout");
+        await CheckAuthenticationState();
     }
+
+    private async Task CheckAuthenticationState()
+    {
+        try
+        {
+            var response = await Http.GetAsync("/.auth/me");
+            if (response.IsSuccessStatusCode)
+            {
+                var authData = await response.Content.ReadFromJsonAsync<AuthData>();
+                if (authData?.ClientPrincipal != null)
+                {
+                    isAuthenticated = true;
+                    userName = authData.ClientPrincipal.UserDetails ?? "User";
+                }
+            }
+        }
+        catch
+        {
+            isAuthenticated = false;
+        }
+    }
+
+    private class AuthData { public ClientPrincipal? ClientPrincipal { get; set; } }
+    private class ClientPrincipal { public string? UserDetails { get; set; } }
 }

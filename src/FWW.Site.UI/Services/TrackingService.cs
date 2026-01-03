@@ -1,4 +1,5 @@
 using System.Net.Http.Json;
+using FWW.Site.Shared.Models;
 
 namespace FWW.Site.UI.Services;
 
@@ -17,7 +18,7 @@ public class TrackingService
     /// <summary>
     /// Get tracking info by tracking number (public)
     /// </summary>
-    public async Task<TrackingResult?> GetPublicTrackingAsync(string trackingNumber)
+    public async Task<PublicTrackingResponse?> GetPublicTrackingAsync(string trackingNumber)
     {
         try
         {
@@ -25,7 +26,7 @@ public class TrackingService
             
             if (response.IsSuccessStatusCode)
             {
-                return await response.Content.ReadFromJsonAsync<TrackingResult>();
+                return await response.Content.ReadFromJsonAsync<PublicTrackingResponse>();
             }
             
             if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
@@ -45,7 +46,7 @@ public class TrackingService
     /// <summary>
     /// Get tracking info by case ID (staff only)
     /// </summary>
-    public async Task<StaffTrackingResult?> GetStaffTrackingAsync(string caseId)
+    public async Task<StaffTrackingResponse?> GetStaffTrackingAsync(string caseId)
     {
         try
         {
@@ -53,7 +54,7 @@ public class TrackingService
             
             if (response.IsSuccessStatusCode)
             {
-                return await response.Content.ReadFromJsonAsync<StaffTrackingResult>();
+                return await response.Content.ReadFromJsonAsync<StaffTrackingResponse>();
             }
             
             return null;
@@ -64,43 +65,4 @@ public class TrackingService
             return null;
         }
     }
-}
-
-/// <summary>
-/// Tracking result model for public users
-/// </summary>
-public class TrackingResult
-{
-    public string TrackingNumber { get; set; } = string.Empty;
-    public string Status { get; set; } = string.Empty;
-    public string StatusDescription { get; set; } = string.Empty;
-    public string Origin { get; set; } = string.Empty;
-    public string Destination { get; set; } = string.Empty;
-    public DateTime? EstimatedArrival { get; set; }
-    public List<TrackingEvent> Events { get; set; } = new();
-}
-
-/// <summary>
-/// Tracking result model for staff
-/// </summary>
-public class StaffTrackingResult : TrackingResult
-{
-    public string CaseId { get; set; } = string.Empty;
-    public DateTime? ActualArrival { get; set; }
-    public DateTime CreatedOn { get; set; }
-    public DateTime ModifiedOn { get; set; }
-    public string InternalNotes { get; set; } = string.Empty;
-    public string CustomerName { get; set; } = string.Empty;
-    public string CustomerEmail { get; set; } = string.Empty;
-}
-
-/// <summary>
-/// Tracking event/milestone
-/// </summary>
-public class TrackingEvent
-{
-    public DateTime Timestamp { get; set; }
-    public string Location { get; set; } = string.Empty;
-    public string Status { get; set; } = string.Empty;
-    public string Description { get; set; } = string.Empty;
 }

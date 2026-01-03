@@ -1,4 +1,4 @@
-namespace FWW.Site.Functions.Models;
+namespace FWW.Site.Shared.Models;
 
 /// <summary>
 /// Represents a tracking case from Dataverse
