@@ -1,33 +1,16 @@
-<CascadingAuthenticationState>
-    <Router AppAssembly="@typeof(App).Assembly">
-        <Found Context="routeData">
-            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
-                <NotAuthorized>
-                    @if (context.User.Identity?.IsAuthenticated != true)
-                    {
-                        <RedirectToLogin />
-                    }
-                    else
-                    {
-                        <div class="section" style="text-align: center;">
-                            <h1>Access Denied</h1>
-                            <p>You are not authorized to access this resource.</p>
-                            <a href="/" class="btn btn-primary">Return Home</a>
-                        </div>
-                    }
-                </NotAuthorized>
-            </AuthorizeRouteView>
-            <FocusOnNavigate RouteData="@routeData" Selector="h1" />
-        </Found>
-        <NotFound>
-            <PageTitle>Not found</PageTitle>
-            <LayoutView Layout="@typeof(MainLayout)">
-                <div class="not-found-container">
-                    <h1>404 - Page Not Found</h1>
-                    <p>Sorry, we couldn't find the page you're looking for.</p>
-                    <a href="/">Return to Homepage</a>
-                </div>
-            </LayoutView>
-        </NotFound>
-    </Router>
-</CascadingAuthenticationState>
+<Router AppAssembly="@typeof(App).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+    </Found>
+    <NotFound>
+        <PageTitle>Not found</PageTitle>
+        <LayoutView Layout="@typeof(MainLayout)">
+            <div class="not-found-container">
+                <h1>404 - Page Not Found</h1>
+                <p>Sorry, we couldn't find the page you're looking for.</p>
+                <a href="/">Return to Homepage</a>
+            </div>
+        </LayoutView>
+    </NotFound>
+</Router>
